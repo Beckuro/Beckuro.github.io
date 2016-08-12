@@ -102,16 +102,39 @@ main_page_content = '''
     </div>
     <!-- Main Page Content -->
     <div class="container">
-      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
           <div class="navbar-header">
+          	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        		<span class="icon-bar"></span>
+       			<span class="icon-bar"></span>
+        		<span class="icon-bar"></span> 
+      		</button>
             <a class="navbar-brand" href="#">Fresh Tomatoes Movie Trailers</a>
           </div>
+          <div class="collapse navbar-collapse" id="myNavbar">
+      			<ul class="nav navbar-nav">
+       				 <li class="active"><a href="#">Home</a></li>
+      				 <li><a href="#">Action</a></li>
+      				 <li><a href="#">Drama</a></li> 
+        			 <li><a href="#">Comedy</a></li> 
+     			</ul>
+     	  </div>
         </div>
-      </div>
+      </nav>
     </div>
     <div class="container">
+    	<h1> Action </h1> <hr>
       {movie_tiles}
+    </div>
+    
+     <div class="container">
+    	<h1> Comedy </h1> <hr>
+      {movie_tiles1}
+    </div>
+     <div class="container">
+    	<h1> Drama </h1> <hr>
+      {movie_tiles2}
     </div>
   </body>
 </html>
@@ -147,13 +170,14 @@ def create_movie_tiles_content(movies):
     return content
 
 
-def open_movies_page(movies):
+def open_movies_page(action,comedy,drama):
     # Create or overwrite the output file
     output_file = open('index.html', 'w')
 
     # Replace the movie tiles placeholder generated content
     rendered_content = main_page_content.format(
-        movie_tiles=create_movie_tiles_content(movies))
+        movie_tiles=create_movie_tiles_content(action),movie_tiles1=create_movie_tiles_content(comedy),
+        movie_tiles2=create_movie_tiles_content(drama))
 
     # Output the file
     output_file.write(main_page_head + rendered_content)
