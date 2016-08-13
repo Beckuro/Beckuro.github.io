@@ -40,7 +40,7 @@ def create_page():
 			comedy.append(movie)
 		else:
 			drama.append(movie)
-	print(comedy)
+
 	fresh_tomatoes.open_movies_page(action,comedy,drama)
 
 create_page()
