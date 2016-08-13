@@ -1,54 +1,118 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="utf-8">
-    <title>Fresh Tomatoes!</title>
-    <!-- Bootstrap 3 -->
-    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Bootstrap core CSS -->
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
+	<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/redmond/jquery-ui.css" rel="stylesheet" />
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="https://getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <!-- <link href="https://getbootstrap.com/examples/navbar-fixed-top/navbar-fixed-top.css" rel="stylesheet"> -->
+    <!-- Script for this site -->
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <style type="text/css" media="screen">
-        body {
-            padding-top: 80px;
-        }
-        #trailer .modal-dialog {
-            margin-top: 200px;
-            width: 640px;
-            height: 480px;
-        }
-        .hanging-close {
-            position: absolute;
-            top: -12px;
-            right: -12px;
-            z-index: 9001;
-        }
-        #trailer-video {
-            width: 100%;
-            height: 100%;
-        }
-        .movie-tile {
-            margin-bottom: 20px;
-            padding-top: 20px;
-        }
-        .movie-tile:hover {
-            background-color: #EEE;
-            cursor: pointer;
-        }
-        .scale-media {
-            padding-bottom: 56.25%;
-            position: relative;
-        }
-        .scale-media iframe {
-            border: none;
-            height: 100%;
-            position: absolute;
-            width: 100%;
-            left: 0;
-            top: 0;
-            background-color: white;
-        }
+		body {
+		    width: 80%;
+		    margin: 30px auto;
+		    font-family: sans-serif;
+		}
+		#trailer .modal-dialog {
+		    margin-top: 200px;
+		    width: 640px;
+		    height: 480px;
+		}
+		.hanging-close {
+		    position: absolute;
+		    top: -12px;
+		    right: -12px;
+		    z-index: 9001;
+		}
+		#trailer-video {
+		    width: 100%;
+		    height: 100%;
+		}
+		.scale-media {
+		    padding-bottom: 56.25%;
+		    position: relative;
+		}
+		.scale-media iframe {
+		    border: none;
+		    height: 100%;
+		    position: absolute;
+		    width: 100%;
+		    left: 0;
+		    top: 0;
+		    background-color: white;
+		}
+		.gallery-container {
+		    display: flex;
+		    flex-wrap: wrap;
+		}
+		h3 {
+		    text-align: center;
+		    font-size: 1.65em;
+		    margin: 0 0 30px;
+		}
+		.photo {
+		    display: inline-block;
+		    margin-bottom: 8px;
+		    width: calc(50% - 4px);
+		    margin-right: 8px;
+		    text-decoration: none;
+		    color: black;
+		}
+		.photo:nth-of-type(2n) {
+		    margin-right: 0;
+		}
+		@media screen and (min-width: 50em) {
+		    .photo {
+		        width: calc(25% - 6px);
+		    }
+		    .photo:nth-of-type(2n) {
+		        margin-right: 8px;
+		    }
+		    .photo:nth-of-type(4n) {
+		        margin-right: 0;
+		    }
+		}
+		.photo:hover img {
+		    transform: scale(1.15);
+		}
+		figure {
+		    margin: 0;
+		    overflow: hidden;
+		}
+		figcaption {
+		    margin-top: 15px;
+		}
+		img {
+		    border: none;
+		    max-width: 100%;
+		    height: auto;
+		    display: block;
+		    background: #ccc;
+		    transition: transform .2s ease-in-out;
+		}
+		body > .text-container {
+			padding-top: 30px;
+		    margin: 20px 0px 10px;
+		}
+		.footer {
+		    position: absolute;
+		    bottom: 0;
+		    width: 100%;
+		    /* Set the fixed height of the footer here */
+	    
+		    height: 60px;
+		    background-color: #f5f5f5;
+		}
     </style>
     <script type="text/javascript" charset="utf-8">
         // Pause the video when the modal is closed
@@ -58,9 +122,8 @@
             $("#trailer-video-container").empty();
         });
         // Start playing the video whenever the trailer modal is opened
-        $(document).on('click', '.movie-tile', function (event) {
-            var trailerYouTubeId = $(this).attr('data-trailer-youtube-id')
-            var sourceUrl = 'http://www.youtube.com/embed/' + trailerYouTubeId + '?autoplay=1&html5=1';
+        $(document).on('click', '.photo', function (event) {
+            var sourceUrl = $(this).attr('data-trailer-youtube-url')
             $("#trailer-video-container").empty().append($("<iframe></iframe>", {
               'id': 'trailer-video',
               'type': 'text-html',
@@ -68,96 +131,178 @@
               'frameborder': 0
             }));
         });
-        // Animate in the movies when the page loads
-        $(document).ready(function () {
-          $('.movie-tile').hide().first().show("fast", function showNext() {
-            $(this).next("div").show("fast", showNext);
-          });
-        });
     </script>
-</head>
 
-  <body>
+        <script src="https://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+<body>
     <!-- Trailer Video Modal -->
     <div class="modal" id="trailer">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <a href="#" class="hanging-close" data-dismiss="modal" aria-hidden="true">
-            <img src="https://lh5.ggpht.com/v4-628SilF0HtHuHdu5EzxD7WRqOrrTIDi_MhEG6_qkNtUK5Wg7KPkofp_VJoF7RS2LhxwEFCO1ICHZlc-o_=s0#w=24&h=24"/>
-          </a>
-          <div class="scale-media" id="trailer-video-container">
-          </div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <a href="#" class="hanging-close" data-dismiss="modal" aria-hidden="true">
+                    <img src="https://lh5.ggpht.com/v4-628SilF0HtHuHdu5EzxD7WRqOrrTIDi_MhEG6_qkNtUK5Wg7KPkofp_VJoF7RS2LhxwEFCO1ICHZlc-o_=s0#w=24&h=24" />
+                </a>
+                <div class="scale-media" id="trailer-video-container">
+                </div>
+
         </div>
-      </div>
     </div>
-    <!-- Main Page Content -->
-    
-      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+
+    <!-- Content -->
+    <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
-          <div class="navbar-header">
-          	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        		<span class="icon-bar"></span>
-       			<span class="icon-bar"></span>
-        		<span class="icon-bar"></span> 
-      		</button>
-            <a class="navbar-brand" href="#">Fresh Tomatoes Movie Trailers</a>
-          </div>
-          <div class="collapse navbar-collapse" id="myNavbar">
-      			<ul class="nav navbar-nav">
-       				 <li class="active"><a href="#">Home</a></li>
-     			</ul>
-     	  </div>
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Project name</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">Home</a>
+                    </li>
+                    <li><a href="#about">About</a>
+                    </li>
+                    <li><a href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
         </div>
-      </nav>
-    
-    <div class="container">
-    	<h1> Movie List</h1> <hr>
-      
-<div class="col-md-4 movie-tile text-center" data-trailer-youtube-id="YdgQj7xcDJo" data-toggle="modal" data-target="#trailer">
-    <img src="http://sidomi.com/wp-content/uploads/2016/04/Fantastic-Beasts-And-Where-to-Find-Them.jpg" width="220" height="342">
-    <h2>Fantastic Beast and Where to Find Them</h2>
-</div>
+    </nav>
+    <div class="text-container">
+        <h3>Action</h3>
+	 </div>
+    <hr>
+    <div class="gallery-container">
+        
 
-<div class="col-md-4 movie-tile text-center" data-trailer-youtube-id="2HkjrJ6IK5E" data-toggle="modal" data-target="#trailer">
-    <img src="http://www.gstatic.com/tv/thumb/movieposters/35948/p35948_p_v8_aa.jpg" width="220" height="342">
-    <h2>Oldboy</h2>
-</div>
+	<a class="photo" data-trailer-youtube-url="http://www.youtube.com/embed/None?autoplay=1&html5=1" data-toggle="modal" data-target="#trailer">
+   	<img src="http://sidomi.com/wp-content/uploads/2016/04/Fantastic-Beasts-And-Where-to-Find-Them.jpg">
+   	<figcaption>
+   	 Fantastic Beast and Where to Find Them
+   	 </figcaption>
+   	 </figure>
+   	 </a>
 
-<div class="col-md-4 movie-tile text-center" data-trailer-youtube-id="EXeTwQWrcwY" data-toggle="modal" data-target="#trailer">
-    <img src="http://www.gstatic.com/tv/thumb/movieposters/173378/p173378_p_v8_aa.jpg" width="220" height="342">
-    <h2>The Dark Night</h2>
-</div>
 
-<div class="col-md-4 movie-tile text-center" data-trailer-youtube-id="vhFVZsk3XEs" data-toggle="modal" data-target="#trailer">
-    <img src="https://upload.wikimedia.org/wikipedia/en/b/b9/Hangoverposter09.jpg" width="220" height="342">
-    <h2>The Hangover</h2>
-</div>
 
-<div class="col-md-4 movie-tile text-center" data-trailer-youtube-id="eLdiWe_HJv4" data-toggle="modal" data-target="#trailer">
-    <img src="https://images-na.ssl-images-amazon.com/images/I/51N6THN5ZXL._SY445_.jpg" width="220" height="342">
-    <h2>The Hitchhiker's Guide to the Galaxy</h2>
-</div>
+	<a class="photo" data-trailer-youtube-url="http://www.youtube.com/embed/None?autoplay=1&html5=1" data-toggle="modal" data-target="#trailer">
+   	<img src="http://www.gstatic.com/tv/thumb/movieposters/35948/p35948_p_v8_aa.jpg">
+   	<figcaption>
+   	 Oldboy
+   	 </figcaption>
+   	 </figure>
+   	 </a>
 
-<div class="col-md-4 movie-tile text-center" data-trailer-youtube-id="GXHVlEklgQ" data-toggle="modal" data-target="#trailer">
-    <img src="http://static.metacritic.com/images/products/movies/2/cbb1dc56593f3c3537d1b39735091077.jpg" width="220" height="342">
-    <h2>Dumb and Dumber</h2>
-</div>
 
-<div class="col-md-4 movie-tile text-center" data-trailer-youtube-id="o4gHCmTQDVI" data-toggle="modal" data-target="#trailer">
-    <img src="https://upload.wikimedia.org/wikipedia/en/d/d2/Prestige_poster.jpg" width="220" height="342">
-    <h2>The Prestige</h2>
-</div>
 
-<div class="col-md-4 movie-tile text-center" data-trailer-youtube-id="mbHXyWX4" data-toggle="modal" data-target="#trailer">
-    <img src="http://t0.gstatic.com/images?q=tbn:ANd9GcTj0AWSMjSJ2T7vk2yQTjOIaU6XOnzXis9egJzJh6YBWrT0A5td" width="220" height="342">
-    <h2>Boyhood</h2>
-</div>
+	<a class="photo" data-trailer-youtube-url="http://www.youtube.com/embed/None?autoplay=1&html5=1" data-toggle="modal" data-target="#trailer">
+   	<img src="http://www.gstatic.com/tv/thumb/movieposters/173378/p173378_p_v8_aa.jpg">
+   	<figcaption>
+   	 The Dark Night
+   	 </figcaption>
+   	 </figure>
+   	 </a>
 
-<div class="col-md-4 movie-tile text-center" data-trailer-youtube-id="6hB3S9bIaco" data-toggle="modal" data-target="#trailer">
-    <img src="https://i.jeded.com/i/the-shawshank-redemption.18663.jpg" width="220" height="342">
-    <h2>The Shawsank Redemption</h2>
-</div>
 
-   </div>
-  </body>
+    </div>
+    <div class="text-container">
+        <h3>Comedy</h3>
+    </div>
+    <hr>
+    <div class="gallery-container">
+        
+
+	<a class="photo" data-trailer-youtube-url="http://www.youtube.com/embed/None?autoplay=1&html5=1" data-toggle="modal" data-target="#trailer">
+   	<img src="https://upload.wikimedia.org/wikipedia/en/b/b9/Hangoverposter09.jpg">
+   	<figcaption>
+   	 The Hangover
+   	 </figcaption>
+   	 </figure>
+   	 </a>
+
+
+
+	<a class="photo" data-trailer-youtube-url="http://www.youtube.com/embed/None?autoplay=1&html5=1" data-toggle="modal" data-target="#trailer">
+   	<img src="https://images-na.ssl-images-amazon.com/images/I/51N6THN5ZXL._SY445_.jpg">
+   	<figcaption>
+   	 The Hitchhiker's Guide to the Galaxy
+   	 </figcaption>
+   	 </figure>
+   	 </a>
+
+
+
+	<a class="photo" data-trailer-youtube-url="http://www.youtube.com/embed/None?autoplay=1&html5=1" data-toggle="modal" data-target="#trailer">
+   	<img src="http://static.metacritic.com/images/products/movies/2/cbb1dc56593f3c3537d1b39735091077.jpg">
+   	<figcaption>
+   	 Dumb and Dumber
+   	 </figcaption>
+   	 </figure>
+   	 </a>
+
+
+    </div>
+    <div class="text-container">
+        <h3>Drama</h3>
+    </div>
+    <hr>
+    <div class="gallery-container">
+        
+
+	<a class="photo" data-trailer-youtube-url="http://www.youtube.com/embed/None?autoplay=1&html5=1" data-toggle="modal" data-target="#trailer">
+   	<img src="https://upload.wikimedia.org/wikipedia/en/d/d2/Prestige_poster.jpg">
+   	<figcaption>
+   	 The Prestige
+   	 </figcaption>
+   	 </figure>
+   	 </a>
+
+
+
+	<a class="photo" data-trailer-youtube-url="http://www.youtube.com/embed/None?autoplay=1&html5=1" data-toggle="modal" data-target="#trailer">
+   	<img src="http://t0.gstatic.com/images?q=tbn:ANd9GcTj0AWSMjSJ2T7vk2yQTjOIaU6XOnzXis9egJzJh6YBWrT0A5td">
+   	<figcaption>
+   	 Boyhood
+   	 </figcaption>
+   	 </figure>
+   	 </a>
+
+
+
+	<a class="photo" data-trailer-youtube-url="http://www.youtube.com/embed/None?autoplay=1&html5=1" data-toggle="modal" data-target="#trailer">
+   	<img src="https://i.jeded.com/i/the-shawshank-redemption.18663.jpg">
+   	<figcaption>
+   	 The Shawsank Redemption
+   	 </figcaption>
+   	 </figure>
+   	 </a>
+
+
+    </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>
+        window.jQuery || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"><\/script>')
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="https://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+</body>
+
 </html>
