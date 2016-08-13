@@ -1,30 +1,41 @@
 import fresh_tomatoes
 import media
+import json
+import urllib2
+import requests
 
+
+#function that return list of movie
 def list_of_movies():
-    FBAWTFT = media.Movie("Fantastic Beast and Where to Find Them", 
-    	"http://sidomi.com/wp-content/uploads/2016/04/Fantastic-Beasts-And-Where-to-Find-Them.jpg",
-    	"YdgQj7xcDJo", "act")
-    Oldboy = media.Movie("Oldboy", "http://www.gstatic.com/tv/thumb/movieposters/35948/p35948_p_v8_aa.jpg" , 
-    	"2HkjrJ6IK5E", "act")
-    TDK = media.Movie("The Dark Night", "http://www.gstatic.com/tv/thumb/movieposters/173378/p173378_p_v8_aa.jpg" , 
-    	"EXeTwQWrcwY", "act")
-    TH = media.Movie("The Hangover", "https://upload.wikimedia.org/wikipedia/en/b/b9/Hangoverposter09.jpg" , 
-    	"vhFVZsk3XEs", "com")
-    HGTG = media.Movie("The Hitchhiker's Guide to the Galaxy", "https://images-na.ssl-images-amazon.com/images/I/51N6THN5ZXL._SY445_.jpg" , 
-    	"eLdiWe_HJv4", "com")
-    DAD = media.Movie("Dumb and Dumber", "http://static.metacritic.com/images/products/movies/2/cbb1dc56593f3c3537d1b39735091077.jpg" , 
-    	"GXHVlEklgQ", "com")
-    TP = media.Movie("The Prestige", "https://upload.wikimedia.org/wikipedia/en/d/d2/Prestige_poster.jpg" , 
-    	"o4gHCmTQDVI", "dra")
-    Boyhood = media.Movie("Boyhood", "http://t0.gstatic.com/images?q=tbn:ANd9GcTj0AWSMjSJ2T7vk2yQTjOIaU6XOnzXis9egJzJh6YBWrT0A5td" , 
-    	"mbHXyWX4", "dra")
-    TSR = media.Movie("The Shawsank Redemption", "https://i.jeded.com/i/the-shawshank-redemption.18663.jpg" , 
-    	"6hB3S9bIaco", "dra")
 
-    movies = [ FBAWTFT , Oldboy , TDK , TH , HGTG , DAD , TP , Boyhood , TSR]
-    return movies
-   
+	#create action movie
+	FBHFT = create_movie('tt3183660',"act","https://www.youtube.com/watch?v=YdgQj7xcDJo")
+	TDK	  =	create_movie('tt0468569',"act","https://www.youtube.com/watch?v=EXeTwQWrcwY")
+	OB    = create_movie('tt0364569',"act","https://www.youtube.com/watch?v=2HkjrJ6IK5E")
+	TR    = create_movie('tt1899353',"act","https://www.youtube.com/watch?v=7KJ0N7ik3yI")
+
+	#create comedy movie
+	THTG  = create_movie('tt0371724',"com","https://www.youtube.com/watch?v=eLdiWe_HJv4")
+	DAD   = create_movie('tt0109686',"com","https://www.youtube.com/watch?v=l13yPhimE3o")
+	TH    = create_movie('tt1119646',"com","https://www.youtube.com/watch?v=vhFVZsk3XEs")
+	TW    = create_movie('tt3152624',"com","https://www.youtube.com/watch?v=2MxnhBPoIx4")
+
+	#create drama movie
+	BH    = create_movie('tt1065073',"dra","https://www.youtube.com/watch?v=Ys-mbHXyWX4")
+	TP    = create_movie('tt0482571',"dra","https://www.youtube.com/watch?v=o4gHCmTQDVI")
+	TSR   = create_movie('tt0111161',"dra","https://www.youtube.com/watch?v=6hB3S9bIaco")
+	TGF   = create_movie('tt0068646',"dra","https://www.youtube.com/watch?v=sY1S34973zA")
+
+	movies = [FBHFT,TDK,OB,TR,THTG,DAD,TH,TW,BH,TP,TSR,TGF]
+	return movies
+
+
+#function to create movie
+def create_movie(id,genre,trailer):
+	response = urllib2.urlopen('http://www.omdbapi.com/?i='+id+'&plot=short&r=json')
+	data 	 = json.load(response)
+	movie 	 = media.Movie(data['Title'],data['Plot'],data['Actors'],data['Poster'], trailer, genre, data['Year'])
+	return movie
    
 
 def create_page():

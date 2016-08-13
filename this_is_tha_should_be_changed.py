@@ -1,4 +1,10 @@
+import webbrowser
+import os
+import re
 
+
+# Styles and scripting for the page
+main_page_head = '''
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -144,7 +150,9 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-
+'''
+# The main page layout and title bar
+main_page_content= '''
 <body>
     <!-- Trailer Video Modal -->
     <div class="modal" id="trailer">
@@ -188,129 +196,21 @@
 	 </div>
     <hr>
     <div class="gallery-container">
-        
-	<a class="photo" data-trailer-youtube-url="http://www.youtube.com/embed/YdgQj7xcDJo?autoplay=1&html5=1" data-toggle="modal" data-target="#trailer">
-		<figure>
-   			<img src="http://ia.media-imdb.com/images/M/MV5BMjQyMzIyMTY5NF5BMl5BanBnXkFtZTgwMDA0Mjk0NzE@._V1_SX300.jpg"><img>
-   				<figcaption>
-   	 			Fantastic Beasts and Where to Find Them
-   				</figcaption>
-   	 	</figure>
-   	</a>
-
-	<a class="photo" data-trailer-youtube-url="http://www.youtube.com/embed/EXeTwQWrcwY?autoplay=1&html5=1" data-toggle="modal" data-target="#trailer">
-		<figure>
-   			<img src="http://ia.media-imdb.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_SX300.jpg"><img>
-   				<figcaption>
-   	 			The Dark Knight
-   				</figcaption>
-   	 	</figure>
-   	</a>
-
-	<a class="photo" data-trailer-youtube-url="http://www.youtube.com/embed/2HkjrJ6IK5E?autoplay=1&html5=1" data-toggle="modal" data-target="#trailer">
-		<figure>
-   			<img src="http://ia.media-imdb.com/images/M/MV5BMTI3NTQyMzU5M15BMl5BanBnXkFtZTcwMTM2MjgyMQ@@._V1_SX300.jpg"><img>
-   				<figcaption>
-   	 			Oldboy
-   				</figcaption>
-   	 	</figure>
-   	</a>
-
-	<a class="photo" data-trailer-youtube-url="http://www.youtube.com/embed/7KJ0N7ik3yI?autoplay=1&html5=1" data-toggle="modal" data-target="#trailer">
-		<figure>
-   			<img src="http://ia.media-imdb.com/images/M/MV5BMTgxODQyNTY0MV5BMl5BanBnXkFtZTcwMjMwMjU0Nw@@._V1_SX300.jpg"><img>
-   				<figcaption>
-   	 			The Raid: Redemption
-   				</figcaption>
-   	 	</figure>
-   	</a>
-
+        {movie_tiles_action}
     </div>
     <div class="text-container">
         <h3>Comedy</h3>
     </div>
     <hr>
     <div class="gallery-container">
-        
-	<a class="photo" data-trailer-youtube-url="http://www.youtube.com/embed/eLdiWe_HJv4?autoplay=1&html5=1" data-toggle="modal" data-target="#trailer">
-		<figure>
-   			<img src="http://ia.media-imdb.com/images/M/MV5BMjEwOTk4NjU2MF5BMl5BanBnXkFtZTYwMDA3NzI3._V1_SX300.jpg"><img>
-   				<figcaption>
-   	 			The Hitchhiker's Guide to the Galaxy
-   				</figcaption>
-   	 	</figure>
-   	</a>
-
-	<a class="photo" data-trailer-youtube-url="http://www.youtube.com/embed/l13yPhimE3o?autoplay=1&html5=1" data-toggle="modal" data-target="#trailer">
-		<figure>
-   			<img src="http://ia.media-imdb.com/images/M/MV5BZDQwMjNiMTQtY2UwYy00NjhiLTk0ZWEtZWM5ZWMzNGFjNTVkXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg"><img>
-   				<figcaption>
-   	 			Dumb & Dumber
-   				</figcaption>
-   	 	</figure>
-   	</a>
-
-	<a class="photo" data-trailer-youtube-url="http://www.youtube.com/embed/vhFVZsk3XEs?autoplay=1&html5=1" data-toggle="modal" data-target="#trailer">
-		<figure>
-   			<img src="http://ia.media-imdb.com/images/M/MV5BMTU1MDA1MTYwMF5BMl5BanBnXkFtZTcwMDcxMzA1Mg@@._V1_SX300.jpg"><img>
-   				<figcaption>
-   	 			The Hangover
-   				</figcaption>
-   	 	</figure>
-   	</a>
-
-	<a class="photo" data-trailer-youtube-url="http://www.youtube.com/embed/2MxnhBPoIx4?autoplay=1&html5=1" data-toggle="modal" data-target="#trailer">
-		<figure>
-   			<img src="http://ia.media-imdb.com/images/M/MV5BMTQ4MjgwNTMyOV5BMl5BanBnXkFtZTgwMTc1MjI0NDE@._V1_SX300.jpg"><img>
-   				<figcaption>
-   	 			Trainwreck
-   				</figcaption>
-   	 	</figure>
-   	</a>
-
+        {movie_tiles_comedy}
     </div>
     <div class="text-container">
         <h3>Drama</h3>
     </div>
     <hr>
     <div class="gallery-container">
-        
-	<a class="photo" data-trailer-youtube-url="http://www.youtube.com/embed/Ys-mbHXyWX4?autoplay=1&html5=1" data-toggle="modal" data-target="#trailer">
-		<figure>
-   			<img src="http://ia.media-imdb.com/images/M/MV5BMTYzNDc2MDc0N15BMl5BanBnXkFtZTgwOTcwMDQ5MTE@._V1_SX300.jpg"><img>
-   				<figcaption>
-   	 			Boyhood
-   				</figcaption>
-   	 	</figure>
-   	</a>
-
-	<a class="photo" data-trailer-youtube-url="http://www.youtube.com/embed/o4gHCmTQDVI?autoplay=1&html5=1" data-toggle="modal" data-target="#trailer">
-		<figure>
-   			<img src="http://ia.media-imdb.com/images/M/MV5BMjA4NDI0MTIxNF5BMl5BanBnXkFtZTYwNTM0MzY2._V1_SX300.jpg"><img>
-   				<figcaption>
-   	 			The Prestige
-   				</figcaption>
-   	 	</figure>
-   	</a>
-
-	<a class="photo" data-trailer-youtube-url="http://www.youtube.com/embed/6hB3S9bIaco?autoplay=1&html5=1" data-toggle="modal" data-target="#trailer">
-		<figure>
-   			<img src="http://ia.media-imdb.com/images/M/MV5BODU4MjU4NjIwNl5BMl5BanBnXkFtZTgwMDU2MjEyMDE@._V1_SX300.jpg"><img>
-   				<figcaption>
-   	 			The Shawshank Redemption
-   				</figcaption>
-   	 	</figure>
-   	</a>
-
-	<a class="photo" data-trailer-youtube-url="http://www.youtube.com/embed/sY1S34973zA?autoplay=1&html5=1" data-toggle="modal" data-target="#trailer">
-		<figure>
-   			<img src="http://ia.media-imdb.com/images/M/MV5BMjEyMjcyNDI4MF5BMl5BanBnXkFtZTcwMDA5Mzg3OA@@._V1_SX300.jpg"><img>
-   				<figcaption>
-   	 			The Godfather
-   				</figcaption>
-   	 	</figure>
-   	</a>
-
+        {movie_tiles_drama}
     </div>
 
 
@@ -327,3 +227,55 @@
 </body>
 
 </html>
+'''
+# A single movie entry html template
+movie_tile_content = '''
+	<a class="photo" data-trailer-youtube-url="http://www.youtube.com/embed/{trailer_youtube_id}?autoplay=1&html5=1" data-toggle="modal" data-target="#trailer">
+		<figure>
+   			<img src="{poster_image_url}"><img>
+   				<figcaption>
+   	 			{movie_title}
+   				</figcaption>
+   	 	</figure>
+   	</a>
+'''
+
+
+def create_movie_tiles_content(movies):
+    # The HTML content for this section of the page
+    content = ''
+    for movie in movies:
+        # Extract the youtube ID from the url
+        youtube_id_match = re.search(
+            r'(?<=v=)[^&#]+', movie.trailer_youtube_url)
+        youtube_id_match = youtube_id_match or re.search(
+            r'(?<=be/)[^&#]+', movie.trailer_youtube_url)
+        trailer_youtube_id = (youtube_id_match.group(0) if youtube_id_match
+                              else None)
+
+        # Append the tile for the movie with its content filled in
+        content += movie_tile_content.format(
+            movie_title=movie.title,
+            poster_image_url=movie.poster_image_url,
+            trailer_youtube_id=trailer_youtube_id
+        )
+    return content
+
+
+def open_movies_page(action,comedy,drama):
+    # Create or overwrite the output file
+    output_file = open('index.html', 'w')
+
+    # Replace the movie tiles placeholder generated content
+    rendered_content = main_page_content.format(
+        movie_tiles_action=create_movie_tiles_content(action),
+        movie_tiles_comedy=create_movie_tiles_content(comedy),
+        movie_tiles_drama=create_movie_tiles_content(drama))
+
+    # Output the file
+    output_file.write(main_page_head + rendered_content)
+    output_file.close()
+
+    # open the output file in the browser (in a new tab, if possible)
+    url = os.path.abspath(output_file.name)
+    webbrowser.open('file://' + url, new=2)

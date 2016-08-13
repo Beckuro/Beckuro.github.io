@@ -82,17 +82,6 @@ main_page_head = '''
           text-align: center;
         }
 
-        .text-media {
-          margin-top: 10px;
-          margin-left: 10px;
-          padding-left: 5px;
-        }
-
-        .title-container {
-          margin-top: 60px;
-          margin-left: 3px;
-        }
-
         .wrap {
           display: flex;
           flex-wrap: wrap;
@@ -105,7 +94,7 @@ main_page_head = '''
           width: calc(50% - 4px);
           margin-right: 0px;
           margin-left: 3px;
-          margin-top: 20px;
+          margin-top: 80px;
           text-decoration: none;
           color: black;
         }
@@ -169,7 +158,7 @@ main_page_head = '''
             var plot = $(this).attr('data-plot')
             var actors = $(this).attr('data-actor')
             var year = $(this).attr('data-year')
-            var final = "<h3>"+movieTitle+"("+year+")</h3><p>"+plot+"</p> <p>Actor : "+actors+"<p>";
+            var final = "<h3>"+movieTitle+"("+year+")</h3> <p>"+plot+"</p> <p> Actor : "+actors+"<p>";
             $("#trailer-video-container").empty().append($("<iframe></iframe>", {
               'id': 'trailer-video',
               'type': 'text-html',
@@ -226,26 +215,8 @@ main_page_content = '''
       </div>
     </nav>
 
-    <!-- Content For Action -->
-    <div class="title-container">
-    <h2> Action </h2> <hr>
-    </div>
-    <div class="wrap" id="Action">
-      {movie_tiles_action}
-    </div>
-    <!-- Content For Comedy -->
-    <div class="title-container" id="Comedy">
-    <h2> Comedy </h2> <hr>
-    </div>
     <div class="wrap">
-      {movie_tiles_comedy}
-    </div>
-    <!-- Content For Drama -->
-    <div class="title-container" id="Drama">
-    <h2> Drama </h2> <hr>
-    </div>
-    <div class="wrap">
-      {movie_tiles_drama}
+      {movie_tiles}
     </div>
 
     <footer class="footer">
@@ -304,15 +275,13 @@ def create_movie_tiles_content(movies):
 
     return content
 
-def open_movies_page(action,comedy,drama):
+def open_movies_page(movies):
     # Create or overwrite the output file
     output_file = open('fresh_tomatoes.html', 'w')
 
     # Replace the movie tiles placeholder generated content
     rendered_content = main_page_content.format(
-        movie_tiles_action=create_movie_tiles_content(action),
-        movie_tiles_comedy=create_movie_tiles_content(comedy),
-        movie_tiles_drama=create_movie_tiles_content(drama))
+        movie_tiles=create_movie_tiles_content(movies))
 
     # Output the file
     output_file.write(main_page_head + rendered_content)
