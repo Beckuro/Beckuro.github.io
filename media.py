@@ -1,5 +1,4 @@
 class Video(object):
-    VALID_RATING = ["G", "PG" , "PG-13" , "R"]
     def __init__(self,title,duration):
         self.title  		= title
         self.duration   	= duration

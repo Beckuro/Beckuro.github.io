@@ -159,7 +159,7 @@ main_page_content= '''
                 </a>
                 <div class="scale-media" id="trailer-video-container">
                 </div>
-               
+
         </div>
     </div>
 
@@ -262,7 +262,7 @@ def create_movie_tiles_content(movies):
 
 def open_movies_page(action,comedy,drama):
     # Create or overwrite the output file
-    output_file = open('fresh_tomatoes.html', 'w')
+    output_file = open('index.html', 'w')
 
     # Replace the movie tiles placeholder generated content
     rendered_content = main_page_content.format(
