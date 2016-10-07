@@ -9,7 +9,7 @@ $(document).ready(function() {
     var secElement = $('#second');
     var msElement = $('#ms');
     var leaderBoard = getLeaderBoard("Leader");;
-    var $loading = $('#loading').hide();
+
     var gambar = ["gambar1","gambar2","gambar3","gambar4","gambar5","gambar6"
     ,"gambar7","gambar8","gambar1","gambar2","gambar3","gambar4","gambar5"
     ,"gambar6","gambar7","gambar8"];
@@ -26,10 +26,13 @@ $(document).ready(function() {
     var leaderObjt;
 
 
+
         /* display leaderboard at the beginning of the screen
         */
         sortLeaderBoard(leaderBoard);
         displayLeaderBoard();
+
+
 
         $('.overlay').click(function(event) {
             /* Act on the event */
@@ -60,6 +63,8 @@ $(document).ready(function() {
             /* Act on the event */
             window.open("index.html","_self");
         });
+
+
         // Shuffle card randomly
         $('#newGame').click(function(event) {
             /* Act on the event */
@@ -67,6 +72,8 @@ $(document).ready(function() {
             flagClicked = true;
             if(flagClicked){
             reset();
+            $('#myModal1').modal('toggle');
+            $('.card').removeClass('flipped').removeClass('sama');
             }
             var data;
             kartu.each(function() {
@@ -86,9 +93,9 @@ $(document).ready(function() {
             run();
 
 
-
-
         });
+
+
 
         // Credit for some guy in stack-overflow
         // here's the link
@@ -165,10 +172,14 @@ $(document).ready(function() {
            end of code
                      */
 
+
+
         function getData(obj){
             var data = obj.attr('data');
             return data;
         }
+
+
 
         function isWinGame(){
             if(point === winGame){
@@ -187,6 +198,8 @@ $(document).ready(function() {
             }
 
         }
+
+
         //this code inspired from
         //http://codereview.stackexchange.com/questions/48383/jquery-stopwatch
         //http://jsfiddle.net/8qmyg/17/
@@ -245,6 +258,8 @@ $(document).ready(function() {
             /*
                end of code
                          */
+
+
 
             function getMinorSec(type,time){
                 var hasil;
@@ -343,13 +358,6 @@ $(document).ready(function() {
             });
 
 
-            $(document)
-              .ajaxStart(function () {
-                $loading.show();
-              })
-              .ajaxStop(function () {
-                $loading.hide();
-              });
 
 });
 
