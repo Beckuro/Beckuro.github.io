@@ -70,10 +70,9 @@ $(document).ready(function() {
             /* Act on the event */
             waktuWin = 0;
             flagClicked = true;
+            $('.card').removeClass('flipped').removeClass('sama');
             if(flagClicked){
             reset();
-            $('#myModal1').modal('toggle');
-            $('.card').removeClass('flipped').removeClass('sama');
             }
             var data;
             kartu.each(function() {
