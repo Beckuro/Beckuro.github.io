@@ -8,8 +8,8 @@ $(document).ready(function() {
     var minElement = $('#minutes');
     var secElement = $('#second');
     var msElement = $('#ms');
-    var leaderBoard = getLeaderBoard("Leader");
-    var reFlag = true;
+    var leaderBoard = getLeaderBoard("Leader");;
+
     var gambar = ["gambar1","gambar2","gambar3","gambar4","gambar5","gambar6"
     ,"gambar7","gambar8","gambar1","gambar2","gambar3","gambar4","gambar5"
     ,"gambar6","gambar7","gambar8"];
@@ -50,8 +50,7 @@ $(document).ready(function() {
 
         $("#no-btn-1").click(function(event) {
             /* Act on the event */
-        window.open("index.html","_self");
-
+            $('#myModal1').modal('toggle');
         });
 
         $("#yes-btn-1").click(function(event) {
@@ -69,15 +68,7 @@ $(document).ready(function() {
         // Shuffle card randomly
         $('#newGame').click(function(event) {
             /* Act on the event */
-            $(this).toggleClass('restart');
-            if($(this).hasClass('restart')){
-                $(this).text('Restart');
-            } else {
-                $(this).text('Start');
-            }
-            if(reFlag){
             waktuWin = 0;
-            reFlag = false;
             flagClicked = true;
             $('.card').removeClass('flipped').removeClass('sama');
             if(flagClicked){
@@ -99,36 +90,9 @@ $(document).ready(function() {
             unique = [];
 
             run();
-        } else {
-            reset();
-            reFlag = true;
-            $('.card').removeClass('flipped').removeClass('sama');
-        }
 
 
         });
-
-        // $('.start-game').click(function(event) {
-        //     /* Act on the event */
-        //     $('.restart-game').css({
-        //         display: 'inline'
-        //     });
-
-        //     $('.start-game').css({
-        //         display: 'none'
-        //     });
-        // });
-        // $('.restart-game').click(function(event) {
-        //     /* Act on the event */
-        //     $('.start-game').css({
-        //         display: 'inline'
-        //     });
-
-        //     $('.restart-game').css({
-        //         display: 'none'
-        //     });
-        // });
-
 
 
 
