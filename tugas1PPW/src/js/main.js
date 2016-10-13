@@ -69,6 +69,7 @@ $(document).ready(function() {
         // Shuffle card randomly
         $('#newGame').click(function(event) {
             /* Act on the event */
+            flagClicked = true;
             $(this).toggleClass('restart');
             if($(this).hasClass('restart')){
                 $(this).text('Restart');
@@ -102,6 +103,7 @@ $(document).ready(function() {
         } else {
             reset();
             reFlag = true;
+            flagClicked = false;
             $('.card').removeClass('flipped').removeClass('sama');
         }
 
@@ -219,6 +221,7 @@ $(document).ready(function() {
         function isWinGame(){
             if(point === winGame){
                 pause();
+                setTimeout(function(){
                 $('#myModal1').modal('toggle');
                 $('.card').removeClass('flipped').removeClass('sama');
                 point = 0;
@@ -230,6 +233,7 @@ $(document).ready(function() {
                 sortLeaderBoard(leaderBoard);
                 console.log(leaderBoard.length);
                 displayLeaderBoard();
+            },1000);
             }
 
         }
