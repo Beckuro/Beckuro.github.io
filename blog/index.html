@@ -1,13 +1,18 @@
 <html>
 <head>
 <title>A web page that points a browser to a different page after 1 seconds</title>
-<meta http-equiv="refresh" content="0.1; URL=https://medium.com/@satriabw">
+<meta http-equiv="refresh" content="1; URL=https://medium.com/@satriabw">
 <meta name="keywords" content="automatic redirection">
+<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-If your browser doesn't automatically go there within a few seconds, 
-you may want to go to 
-<a href="https://medium.com/@satriabw">the destination</a> 
-manually.
+  <div class="loader">
+    <a href="https://medium.com/@satriabw">
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    </a>
+  </div>
 </body>
 </html>
